@@ -21,9 +21,17 @@ public class EnrollClassHandler : IRequestHandler<EnrollClassCommand, string>
     }
     public async Task<string> Handle(EnrollClassCommand request, CancellationToken cancellationToken)
     {
-        string currentDate = DateTime.Now.ToString("yyyy-MM-dd");
+        DateTime currentDate = DateTime.Now;
         var range = _common.GetCourseDateRange(request.EnrollmentInfo.ClassName);
-        
+        DateOnly? startDate = range?.LowerBound;
+        DateOnly? endDate = range?.UpperBound;
+        if (startDate > DateOnly.FromDateTime(DateTime.Now) || DateOnly.FromDateTime(DateTime.Now) > endDate)
+        {
+            return "Not allowed to enroll at this time !";
+        }
+
+        if (!_common.CheckCourseCapacity(request.EnrollmentInfo.ClassName))
+            return "The class is full!";
         var classId = _common.GetClassId(request.EnrollmentInfo);
         var res = await _context.AddAsync(new Domain.Models.ClassEnrollment()
         {
