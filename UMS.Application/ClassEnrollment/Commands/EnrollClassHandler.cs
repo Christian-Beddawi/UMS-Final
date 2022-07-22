@@ -1,9 +1,7 @@
 using MediatR;
 using UMS.Application.Common;
-using UMS.Domain.Models;
 using UMS.Infrastructure.Abstraction.EmailServiceInterface;
 using UMS.Persistence;
-using UMS.WebAPI.DTO;
 
 namespace UMS.Application.ClassEnrollment.Commands;
 
