@@ -23,9 +23,9 @@ public class UsersController : ControllerBase
        
        // GET
        [HttpGet("GetCourses")]
-       public async Task<IActionResult> GetCourseStudents([FromHeader] string courseName)
+       public async Task<IActionResult> GetCourseStudents([FromHeader] int courseId)
        {
-           return Ok(await _mediator.Send(new GetCourseStudentsQuery(courseName)));
+           return Ok(await _mediator.Send(new GetCourseStudentsQuery(courseId)));
        }
        
        // Teacher to Course Registration
